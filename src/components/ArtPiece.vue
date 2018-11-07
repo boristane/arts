@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import p5 from 'p5';
+
 export default {
     name: 'ArtPiece',
     data () {
@@ -43,9 +45,17 @@ export default {
         }
     },
     created () {
-        let script = document.getElementById('art-script');
-        script.setAttribute('src', this.artPiece.js);
-        document.body.appendChild(script);
+        (function(d, src) {
+            const script = d.createElement('script');
+            script.type = 'text/javascript';
+            script.async = true;
+            script.onload = function(){
+                // eslint-disable-next-line
+                new p5(artPiece, d.getElementById('canvas-container'));
+            };
+            script.src = src;
+            d.getElementsByTagName('head')[0].appendChild(script);
+        }(document, this.artPiece.js));
     }
 }
 </script>
