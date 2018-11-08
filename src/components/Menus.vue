@@ -21,4 +21,10 @@ export default {
 .header a {
     display: block;
 }
+
+@media screen and (max-width: 1023px){
+    .header {
+        position: inherit;
+    }
+}
 </style>

@@ -21,8 +21,23 @@ export default {
 .container {
     display: grid;
     grid-template-columns: auto auto auto;
-    max-width: 1000px;
+    max-width: 900px;
     margin: 80px auto;
+}
+
+@media screen and (max-width: 1023px){
+    .container {
+        grid-template-columns: auto auto;
+        margin-top: 15px;
+        max-width: 650px;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .container {
+        grid-template-columns: auto;
+        max-width: 300px;
+    }
 }
 </style>
 

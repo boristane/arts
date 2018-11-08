@@ -25,4 +25,11 @@ export default {
     width: 100%;
     text-align: center;
 }
+
+@media screen and (max-width: 1023px){
+    .footer {
+        margin-top: 80px;
+        position: inherit;
+    }
+}
 </style>

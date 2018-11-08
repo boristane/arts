@@ -1,8 +1,14 @@
 <template>
     <div class="container">
-        <div id="canvas-container">
-
+        <div class="mini-container">
+            <div id="canvas-container">
+                
+            </div>
+            <div style="margin: 5px 0 0 0px; color: grey; text-align: right">
+                made with <a href="https://p5js.org/" target="_blank" rel="noopener noreferrer">p5.js</a>
+            </div>
         </div>
+        
         <div class="details">
             <div class="date">{{ artPiece.date }}</div>
             <h1 class="title">{{ artPiece.title }}</h1>
@@ -82,7 +88,7 @@ export default {
 
 <style scoped>
 .container {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 80px auto;
     display: grid;
     grid-template-columns: auto auto;
@@ -92,9 +98,9 @@ export default {
     padding: 10px;
     border: 1px solid lightgray;
     text-align: center;
-    margin: 0 30px;
     width: 500px;
     height: 500px;
+    margin: auto;
 }
 
 .date {
@@ -134,6 +140,7 @@ export default {
 
 .details {
     position: relative;
+    margin-left: 30px;
 }
 
 .navigation {
@@ -150,5 +157,78 @@ export default {
 #older {
     position: absolute;
     right: 0;
+}
+
+@media screen and (max-width: 1023px){
+    .container {
+        display: block;
+        margin-top: 15px;
+    }
+
+    .mini-container {
+        width: 600px;
+        margin: auto;
+    }
+
+    .details {
+        width: 600px;
+        margin: auto;
+        margin-top: 30px;
+    }
+
+    .navigation {
+        margin-top: 30px;
+        position: inherit;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .container {
+        max-width: 800px;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    .mini-container {
+        width: 450px;
+        margin: auto;
+    }
+
+    .details {
+        width: 450px;
+        margin: auto;
+        margin-top: 15px;
+    }
+
+    #canvas-container {
+        margin: auto;
+        width: 350px;
+        height: 350px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .container {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    .mini-container {
+        width: 300px;
+        margin: auto;
+    }
+
+    .details {
+        width: 300px;
+        margin: auto;
+        margin-top: 15px;
+    }
+
+    #canvas-container {
+        margin: auto;
+        width: 250px;
+        height: 250px;
+    }
 }
 </style>
