@@ -14,12 +14,12 @@
                 <p class="quote" v-html="artPiece.quote.text"></p>
                 <p class="source"><a :href="artPiece.quote.url" target="_blank" rel="noopener noreferrer"><span class="author">{{ artPiece.quote.author }}</span>, {{artPiece.quote.ref}}</a></p>
             </div>
-            <div class="navigation hidden">
-                <div id="newer">
-                    <a href="">&#8810; NEWER</a>
+            <div class="navigation">
+                <div v-show="newer" id="newer">
+                    <router-link :to="{ name: 'artPiece', params: { piece: newer }}">&#8810; NEWER</router-link>
                 </div>
-                <div id="older">
-                    <a href="">OLDER &#8811;</a>
+                <div v-show="older" id="older">
+                    <router-link :to="{ name: 'artPiece', params: { piece: older }}">OLDER &#8811;</router-link>
                 </div>
             </div>
         </div>
@@ -42,6 +42,16 @@ export default {
     computed: {
         artPiece () {
             return this.artPieces.find(piece => piece.title === this.artPieceTitle);
+        },
+        older () {
+            const index = this.artPieces.indexOf(this.artPiece);
+            if (index <= 0) return '';
+            return this.artPieces[index - 1].title.split(' ').join('_');
+        },
+        newer () {
+            const index = this.artPieces.indexOf(this.artPiece);
+            if (index >= this.artPieces.length - 1) return '';
+            return this.artPieces[index + 1].title.split(' ').join('_');
         }
     },
     created () {
@@ -56,6 +66,16 @@ export default {
             script.src = src;
             d.getElementsByTagName('head')[0].appendChild(script);
         }(document, this.artPiece.js));
+    },
+    watch: {
+        $route () {
+            this.artPieceTitle = this.$route.params.piece.split('_').join(' ');
+        },
+        artPiece () {
+            if (!this.artPiece) {
+                this.$router.push({ name: '404'});
+            }
+        }
     }
 }
 </script>

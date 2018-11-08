@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <ArtMiniature v-for="artPiece in artPieces" :key="artPiece.id" :artPiece="artPiece"></ArtMiniature>
+        <ArtMiniature v-for="artPiece in artPieces.slice().reverse()" :key="artPiece.id" :artPiece="artPiece"></ArtMiniature>
     </div>
 </template>
 
