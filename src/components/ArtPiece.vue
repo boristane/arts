@@ -10,7 +10,7 @@
         </div>
         
         <div class="details">
-            <div class="date">{{ artPiece.date }}</div>
+            <div class="date">{{ `${(new Date(artPiece.createdAt)).toDateString().slice(4, 15)}` }}</div>
             <h1 class="title">{{ artPiece.title }}</h1>
             <h2 class="inspiration">
                 <a :href="artPiece.inspiration" target="_blank" style="padding: 0">inspiration</a>
@@ -21,10 +21,10 @@
                 <p class="source"><a :href="artPiece.quote.url" target="_blank" rel="noopener noreferrer"><span class="author">{{ artPiece.quote.author }}</span>, {{artPiece.quote.ref}}</a></p>
             </div>
             <div class="navigation">
-                <div v-show="newer" id="newer">
+                <div v-show="newer !== '404'" id="newer">
                     <router-link :to="{ name: 'artPiece', params: { piece: newer }}">&#8810; NEWER</router-link>
                 </div>
-                <div v-show="older" id="older">
+                <div v-show="older !== '404'" id="older">
                     <router-link :to="{ name: 'artPiece', params: { piece: older }}">OLDER &#8811;</router-link>
                 </div>
             </div>
@@ -34,6 +34,23 @@
 
 <script>
 import p5 from 'p5';
+let p = {};
+const runArtScript = (d, src) => {
+    d.querySelectorAll('.art-script').forEach(elt => elt.remove());
+    if (Object.keys(p).length > 0) {
+        p.remove();
+    }
+    const script = d.createElement('script');
+    script.classList.add('art-script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.onload = () => {
+        // eslint-disable-next-line
+        p = new p5(artPiece, d.getElementById('canvas-container'));
+    };
+    script.src = src;
+    d.getElementsByTagName('body')[0].appendChild(script);
+};
 
 export default {
     name: 'ArtPiece',
@@ -51,27 +68,17 @@ export default {
         },
         older () {
             const index = this.artPieces.indexOf(this.artPiece);
-            if (index <= 0) return '';
+            if (index <= 0) return '404';
             return this.artPieces[index - 1].title.split(' ').join('_');
         },
         newer () {
             const index = this.artPieces.indexOf(this.artPiece);
-            if (index >= this.artPieces.length - 1) return '';
+            if (index >= this.artPieces.length - 1) return '404';
             return this.artPieces[index + 1].title.split(' ').join('_');
-        }
+        },
     },
     created () {
-        (function(d, src) {
-            const script = d.createElement('script');
-            script.type = 'text/javascript';
-            script.async = true;
-            script.onload = function(){
-                // eslint-disable-next-line
-                new p5(artPiece, d.getElementById('canvas-container'));
-            };
-            script.src = src;
-            d.getElementsByTagName('head')[0].appendChild(script);
-        }(document, this.artPiece.js));
+        runArtScript(document, this.artPiece.js);
     },
     watch: {
         $route () {
@@ -81,6 +88,7 @@ export default {
             if (!this.artPiece) {
                 this.$router.push({ name: '404'});
             }
+            runArtScript(document, this.artPiece.js);
         }
     }
 }

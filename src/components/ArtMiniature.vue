@@ -4,7 +4,7 @@
             <img class="miniature" :src="artPiece.image" alt="" srcset="">
         </router-link>
         <div class="details">
-            <span class="date">{{ artPiece.date }}</span>
+            <span class="date">{{ `${(new Date(artPiece.createdAt)).toDateString().slice(4, 15)}` }}</span>
             <router-link :to="url" class="title">{{ artPiece.title }}</router-link>
         </div>
     </div>

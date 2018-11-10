@@ -18,85 +18,21 @@ export default {
   },
   data () {
     return {
-      artPieces: [
-        {
-          id: 0,
-          title: 'under the water',
-          date: '05 Nov 2018',
-          inspiration: 'https://blog.kadenze.com/creative-technology/p5-js-crash-course-recreate-art-you-love/',
-          lang: '🇫🇷',
-          quote: {
-            text: "Si souvent, j'la pousse à bout</br>Elle m'aime et j'veux voir jusqu'où</br>J'ai si peur, si peur, si peur, peur qu'elle me délaisse</br>Que j'vais tout faire, tout faire, tout faire pour qu'elle me déteste",
-            author: 'Gringe',
-            ref: "Jusqu'où elle m'aime",
-            url: "https://genius.com/Gringe-jusquou-elle-maime-lyrics",
-          },
-          image: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.png',
-          js: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.js',
-        },
-        {
-          id: 1,
-          title: 'underefe the water',
-          date: '05 Nov 2018',
-          inspiration: 'https://blog.kadenze.com/creative-technology/p5-js-crash-course-recreate-art-you-love/',
-          lang: '🇫🇷',
-          quote: {
-            text: "Si souvent, j'la pousse à bout</br>Elle m'aime et j'veux voir jusqu'où</br>J'ai si peur, si peur, si peur, peur qu'elle me délaisse</br>Que j'vais tout faire, tout faire, tout faire pour qu'elle me déteste",
-            author: 'Gringe',
-            ref: "Jusqu'où elle m'aime",
-            url: "https://genius.com/Gringe-jusquou-elle-maime-lyrics",
-          },
-          image: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.png',
-          js: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.js',
-        },
-        {
-          id: 2,
-          title: 'under efthe wsvater',
-          date: '05 Nov 2018',
-          inspiration: 'https://blog.kadenze.com/creative-technology/p5-js-crash-course-recreate-art-you-love/',
-          lang: '🇫🇷',
-          quote: {
-            text: "Si souvent, j'la pousse à bout</br>Elle m'aime et j'veux voir jusqu'où</br>J'ai si peur, si peur, si peur, peur qu'elle me délaisse</br>Que j'vais tout faire, tout faire, tout faire pour qu'elle me déteste",
-            author: 'Gringe',
-            ref: "Jusqu'où elle m'aime",
-            url: "https://genius.com/Gringe-jusquou-elle-maime-lyrics",
-          },
-          image: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.png',
-          js: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.js',
-        },
-        {
-          id: 3,
-          title: 'under efthe water',
-          date: '05 Nov 2018',
-          inspiration: 'https://blog.kadenze.com/creative-technology/p5-js-crash-course-recreate-art-you-love/',
-          lang: '🇫🇷',
-          quote: {
-            text: "Si souvent, j'la pousse à bout</br>Elle m'aime et j'veux voir jusqu'où</br>J'ai si peur, si peur, si peur, peur qu'elle me délaisse</br>Que j'vais tout faire, tout faire, tout faire pour qu'elle me déteste",
-            author: 'Gringe',
-            ref: "Jusqu'où elle m'aime",
-            url: "https://genius.com/Gringe-jusquou-elle-maime-lyrics",
-          },
-          image: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.png',
-          js: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.js',
-        },
-        {
-          id: 4,
-          title: 'under tefdvshe water',
-          date: '05 Nov 2018',
-          inspiration: 'https://blog.kadenze.com/creative-technology/p5-js-crash-course-recreate-art-you-love/',
-          lang: '🇫🇷',
-          quote: {
-            text: "Si souvent, j'la pousse à bout</br>Elle m'aime et j'veux voir jusqu'où</br>J'ai si peur, si peur, si peur, peur qu'elle me délaisse</br>Que j'vais tout faire, tout faire, tout faire pour qu'elle me déteste",
-            author: 'Gringe',
-            ref: "Jusqu'où elle m'aime",
-            url: "https://genius.com/Gringe-jusquou-elle-maime-lyrics",
-          },
-          image: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.png',
-          js: 'https://boristane-arts-data.s3.eu-west-2.amazonaws.com/a.js',
-        },
-      ]
+      artPieces: [],
+      apiURL: 'https://boristane-blog-api.herokuapp.com',
     }
   },
+  created ()  {
+    fetch(`${this.apiURL}/artpieces`)
+        .then(data => data.json())
+        .then((data) => {
+            this.artPieces = data.artPieces.sort((a, b) => {
+              const dateA = new Date(a.createdAt);
+              const dateB = new Date(b.createdAt);
+              return dateB.getTime() - dateA.getTime();
+            });
+        });
+  }
 }
 </script>
 
