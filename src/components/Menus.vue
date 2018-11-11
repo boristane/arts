@@ -1,7 +1,7 @@
 <template>
     <div class="header">
-        <a href="">home</a>
-        <a href="https://boristane.com" target="_blank">about</a>
+        <a href="/">home</a>
+        <a href="https://boristane.com">about</a>
     </div>
 </template>
 

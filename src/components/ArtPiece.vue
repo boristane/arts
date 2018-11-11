@@ -5,7 +5,7 @@
                 
             </div>
             <div style="margin: 5px 0 0 0px; color: grey; text-align: right">
-                made with <a href="https://p5js.org/" target="_blank" rel="noopener noreferrer">p5.js</a>
+                made with <a href="https://p5js.org/" rel="noopener noreferrer">p5.js</a>
             </div>
         </div>
         
@@ -13,12 +13,12 @@
             <div class="date">{{ `${(new Date(artPiece.createdAt)).toDateString().slice(4, 15)}` }}</div>
             <h1 class="title">{{ artPiece.title }}</h1>
             <h2 class="inspiration">
-                <a :href="artPiece.inspiration" target="_blank" style="padding: 0">inspiration</a>
+                <a :href="artPiece.inspiration" style="padding: 0">inspiration</a>
             </h2>
             <div class="description">
                 <p class="language">{{ artPiece.lang }}</p>
                 <p class="quote" v-html="artPiece.quote.text"></p>
-                <p class="source"><a :href="artPiece.quote.url" target="_blank" rel="noopener noreferrer"><span class="author">{{ artPiece.quote.author }}</span>, {{artPiece.quote.ref}}</a></p>
+                <p class="source"><a :href="artPiece.quote.url" rel="noopener noreferrer"><span class="author">{{ artPiece.quote.author }}</span>, {{artPiece.quote.ref}}</a></p>
             </div>
             <div class="navigation">
                 <div v-show="newer !== '404'" id="newer">
@@ -56,7 +56,7 @@ export default {
     name: 'ArtPiece',
     data () {
         return {
-            artPieceTitle: this.$route.params.piece.split('_').join(' '),
+            artPieceTitle: this.$route.params.piece.split('_').join(' ').toLowerCase(),
         };
     },
     props: [
@@ -64,25 +64,27 @@ export default {
     ],
     computed: {
         artPiece () {
-            return this.artPieces.find(piece => piece.title === this.artPieceTitle);
+            return this.artPieces.find(piece => piece.title.toLowerCase() === this.artPieceTitle);
         },
         older () {
             const index = this.artPieces.indexOf(this.artPiece);
             if (index <= 0) return '404';
-            return this.artPieces[index - 1].title.split(' ').join('_');
+            return this.artPieces[index - 1].title.split(' ').join('_').toLowerCase();
         },
         newer () {
             const index = this.artPieces.indexOf(this.artPiece);
             if (index >= this.artPieces.length - 1) return '404';
-            return this.artPieces[index + 1].title.split(' ').join('_');
+            return this.artPieces[index + 1].title.split(' ').join('_').toLowerCase();
         },
     },
     created () {
         runArtScript(document, this.artPiece.js);
+        document.title = this.artPieceTitle;
     },
     watch: {
         $route () {
-            this.artPieceTitle = this.$route.params.piece.split('_').join(' ');
+            this.artPieceTitle = this.$route.params.piece.split('_').join(' ').toLowerCase();
+            document.title = this.artPieceTitle;
         },
         artPiece () {
             if (!this.artPiece) {

@@ -1,10 +1,10 @@
 <template>
     <div class="footer">
         <p class="links">
-            <a href="mailto:me@boristane.com" target="_blank" rel="noopener noreferrer" class="social pointer"><i class="far fa-envelope"></i></a>
-            <a href="https://twitter.com/BorisTane" target="_blank" rel="noopener noreferrer" class="social pointer"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.linkedin.com/in/boristane/" target="_blank" rel="noopener noreferrer" class="social pointer"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/boristane" target="_blank" rel="noopener noreferrer" class="social pointer"><i class="fab fa-github"></i></a>
+            <a href="mailto:me@boristane.com" rel="noopener noreferrer" class="social pointer"><i class="far fa-envelope"></i></a>
+            <a href="https://twitter.com/BorisTane" rel="noopener noreferrer" class="social pointer"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/boristane/" rel="noopener noreferrer" class="social pointer"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/boristane" rel="noopener noreferrer" class="social pointer"><i class="fab fa-github"></i></a>
         </p>
     </div>
 </template>
