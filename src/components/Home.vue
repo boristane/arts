@@ -1,7 +1,7 @@
 <template>
 <div class="main">
     <p style="color: grey;">
-        I make art with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">javascript</a> and this might me called a portfolio...
+        I make art with <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">javascript</a> and this might be called a portfolio...
     </p>
     <div class="container">
         <ArtMiniature v-for="artPiece in artPieces.slice().reverse()" :key="artPiece.id" :artPiece="artPiece"></ArtMiniature>

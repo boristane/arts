@@ -33,6 +33,11 @@ export default {
     padding: 10px;
     width: 254px;
     height: 254px;
+    transition: border 0.2s ease-in-out;
+}
+
+.miniature:hover {
+    border-color: rgb(253, 101, 101);
 }
 
 .details {
