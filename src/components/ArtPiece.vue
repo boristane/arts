@@ -79,18 +79,17 @@ export default {
     },
     created () {
         runArtScript(document, this.artPiece.js);
-        document.title = this.artPieceTitle;
     },
     watch: {
         $route () {
             this.artPieceTitle = this.$route.params.piece.split('_').join(' ').toLowerCase();
-            document.title = this.artPieceTitle;
         },
         artPiece () {
             if (!this.artPiece) {
                 this.$router.push({ name: '404'});
             }
             runArtScript(document, this.artPiece.js);
+            document.title = this.artPieceTitle;
         }
     }
 }
