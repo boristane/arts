@@ -2,7 +2,7 @@
     <div class="container">
         <div class="mini-container">
             <div id="canvas-container">
-                
+                <scale-loader class="loader" :loading="loading" :color="spinnerColor"></scale-loader>     
             </div>
             <div style="margin: 5px 0 0 0px; color: grey; text-align: right">
                 made with <a href="https://p5js.org/" rel="noopener noreferrer">p5.js</a>
@@ -34,33 +34,18 @@
 
 <script>
 import p5 from 'p5';
-let p = {};
-const runArtScript = (d, src) => {
-    d.querySelectorAll('.art-script').forEach(elt => elt.remove());
-    if (Object.keys(p).length > 0) {
-        p.remove();
-    }
-    const script = d.createElement('script');
-    script.classList.add('art-script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.onload = () => {
-        const container = d.getElementById('canvas-container');
-        container.innerHTML = '';
-        // eslint-disable-next-line
-        p = new p5(artPiece, container);
-    };
-    script.src = src;
-    d.getElementsByTagName('body')[0].appendChild(script);
-};
-
-
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue';
 
 export default {
     name: 'ArtPiece',
+    components: {
+      ScaleLoader,
+    },
     data () {
         return {
             artPieceTitle: this.$route.params.piece.split('_').join(' ').toLowerCase(),
+            spinnerColor: 'rgb(250, 90, 95)',
+            loading: true,
         };
     },
     props: [
@@ -73,7 +58,7 @@ export default {
         older () {
             const index = this.artPieces.indexOf(this.artPiece);
             if (index <= 0) return '';
-            return this.artPieces[index - 1].title.split(' ').join('_').toLowerCase();
+            return this.artPieces[index - 1].title;
         },
         newer () {
             const index = this.artPieces.indexOf(this.artPiece);
@@ -91,10 +76,27 @@ export default {
               this.$router.push({ name: 'artPiece', params: { piece: this.older }})
             }
         });
-      }
+      },
+      runArtScript (d, src) {
+        this.loading = true;
+        d.querySelectorAll('.art-script').forEach(elt => elt.remove());
+        d.querySelectorAll('.p5Canvas').forEach(elt => elt.remove());
+        const script = d.createElement('script');
+        script.classList.add('art-script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = () => {
+          const container = d.getElementById('canvas-container');
+          this.loading = false;
+          // eslint-disable-next-line
+          const p = new p5(artPiece, container);
+        };
+        script.src = src;
+        d.getElementsByTagName('body')[0].appendChild(script);
+      },
     },
     created () {
-        runArtScript(document, this.artPiece.js);
+        this.runArtScript(document, this.artPiece.js);
         this.handleKeyDown();
     },
     watch: {
@@ -105,7 +107,7 @@ export default {
             if (!this.artPiece) {
                 this.$router.push({ name: '404'});
             }
-            runArtScript(document, this.artPiece.js);
+            this.runArtScript(document, this.artPiece.js);
             document.title = this.artPieceTitle;
         }
     }
@@ -167,6 +169,7 @@ export default {
 .details {
     position: relative;
     margin-left: 30px;
+    width: 400px;
 }
 
 .navigation {
@@ -183,6 +186,10 @@ export default {
 #older {
     position: absolute;
     right: 0;
+}
+
+.loader {
+  margin-top: 210px;
 }
 
 @media screen and (max-width: 1023px){
@@ -205,6 +212,10 @@ export default {
     .navigation {
         margin-top: 30px;
         position: inherit;
+    }
+
+    .loader {
+        margin-top: 100px;
     }
 }
 
