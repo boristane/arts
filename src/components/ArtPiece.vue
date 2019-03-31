@@ -21,10 +21,10 @@
                 <p class="source"><a :href="artPiece.quote.url" rel="noopener noreferrer"><span class="author">{{ artPiece.quote.author }}</span>, {{artPiece.quote.ref}}</a></p>
             </div>
             <div class="navigation">
-                <div v-show="newer !== '404'" id="newer">
+                <div v-show="newer" id="newer">
                     <router-link :to="{ name: 'artPiece', params: { piece: newer }}">&#8810; NEWER</router-link>
                 </div>
-                <div v-show="older !== '404'" id="older">
+                <div v-show="older" id="older">
                     <router-link :to="{ name: 'artPiece', params: { piece: older }}">OLDER &#8811;</router-link>
                 </div>
             </div>
@@ -45,12 +45,16 @@ const runArtScript = (d, src) => {
     script.type = 'text/javascript';
     script.async = true;
     script.onload = () => {
+        const container = d.getElementById('canvas-container');
+        container.innerHTML = '';
         // eslint-disable-next-line
-        p = new p5(artPiece, d.getElementById('canvas-container'));
+        p = new p5(artPiece, container);
     };
     script.src = src;
     d.getElementsByTagName('body')[0].appendChild(script);
 };
+
+
 
 export default {
     name: 'ArtPiece',
@@ -68,17 +72,30 @@ export default {
         },
         older () {
             const index = this.artPieces.indexOf(this.artPiece);
-            if (index <= 0) return '404';
+            if (index <= 0) return '';
             return this.artPieces[index - 1].title.split(' ').join('_').toLowerCase();
         },
         newer () {
             const index = this.artPieces.indexOf(this.artPiece);
-            if (index >= this.artPieces.length - 1) return '404';
+            if (index >= this.artPieces.length - 1) return '';
             return this.artPieces[index + 1].title.split(' ').join('_').toLowerCase();
         },
     },
+    methods: {
+      handleKeyDown() {
+        document.querySelector('body').addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowLeft' && this.newer){
+              this.$router.push({ name: 'artPiece', params: { piece: this.newer }})
+            }
+            else if(e.code === 'ArrowRight' && this.older){
+              this.$router.push({ name: 'artPiece', params: { piece: this.older }})
+            }
+        });
+      }
+    },
     created () {
         runArtScript(document, this.artPiece.js);
+        this.handleKeyDown();
     },
     watch: {
         $route () {
