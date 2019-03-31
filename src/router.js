@@ -23,5 +23,12 @@ export default new VueRouter({
             name: '404',
             component: notFound,
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    }
 });
