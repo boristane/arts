@@ -39,7 +39,7 @@ import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue';
 export default {
     name: 'ArtPiece',
     components: {
-      ScaleLoader,
+        ScaleLoader,
     },
     data () {
         return {
@@ -67,33 +67,33 @@ export default {
         },
     },
     methods: {
-      handleKeyDown() {
-        document.querySelector('body').addEventListener('keydown', (e) => {
-            if (e.code === 'ArrowLeft' && this.newer){
-              this.$router.push({ name: 'artPiece', params: { piece: this.newer }})
-            }
-            else if(e.code === 'ArrowRight' && this.older){
-              this.$router.push({ name: 'artPiece', params: { piece: this.older }})
-            }
-        });
-      },
-      runArtScript (d, src) {
-        this.loading = true;
-        d.querySelectorAll('.art-script').forEach(elt => elt.remove());
-        d.querySelectorAll('.p5Canvas').forEach(elt => elt.remove());
-        const script = d.createElement('script');
-        script.classList.add('art-script');
-        script.type = 'text/javascript';
-        script.async = true;
-        script.onload = () => {
-          const container = d.getElementById('canvas-container');
-          this.loading = false;
-          // eslint-disable-next-line
-          const p = new p5(artPiece, container);
-        };
-        script.src = src;
-        d.getElementsByTagName('body')[0].appendChild(script);
-      },
+        handleKeyDown() {
+            document.querySelector('body').addEventListener('keydown', (e) => {
+                if (e.code === 'ArrowLeft' && this.newer){
+                    this.$router.push({ name: 'artPiece', params: { piece: this.newer }})
+                }
+                else if(e.code === 'ArrowRight' && this.older){
+                    this.$router.push({ name: 'artPiece', params: { piece: this.older }})
+                }
+            });
+        },
+        runArtScript (d, src) {
+                this.loading = true;
+                d.querySelectorAll('.art-script').forEach(elt => elt.remove());
+                d.querySelectorAll('.p5Canvas').forEach(elt => elt.remove());
+                const script = d.createElement('script');
+                script.classList.add('art-script');
+                script.type = 'text/javascript';
+                script.async = true;
+                script.onload = () => {
+                    const container = d.getElementById('canvas-container');
+                    this.loading = false;
+                    // eslint-disable-next-line
+                    const p = new p5(artPiece, container);
+                };
+                script.src = src;
+                d.getElementsByTagName('body')[0].appendChild(script);
+        },
     },
     created () {
         this.runArtScript(document, this.artPiece.js);
@@ -116,8 +116,9 @@ export default {
 
 <style scoped>
 .container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 80px auto;
+    margin-bottom: 0px;
     display: grid;
     grid-template-columns: auto auto;
 }
@@ -126,8 +127,8 @@ export default {
     padding: 10px;
     border: 1px solid lightgray;
     text-align: center;
-    width: 500px;
-    height: 500px;
+    width: 800px;
+    height: 800px;
     margin: auto;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
@@ -190,7 +191,14 @@ export default {
 }
 
 .loader {
-  margin-top: 210px;
+    margin-top: 210px;
+}
+
+@media screen and (max-width: 1372px){
+    #canvas-container {
+        width: 500px;
+        height: 500px;
+    }
 }
 
 @media screen and (max-width: 1023px){
