@@ -18,12 +18,13 @@ export default {
 <style scoped>
 .footer {
     text-align: center;
-    margin: 50px auto 15px;
+    margin: 50px auto 0px;
     font-weight: 400;
     position: fixed;
     bottom: 0px;
     width: 100%;
     text-align: center;
+    background-color: white
 }
 
 @media screen and (max-width: 1023px){

@@ -46,6 +46,7 @@ export default {
             artPieceTitle: this.$route.params.piece.split('_').join(' ').toLowerCase(),
             spinnerColor: 'rgb(250, 90, 95)',
             loading: true,
+            sketch: new p5(),
         };
     },
     props: [
@@ -79,6 +80,8 @@ export default {
         },
         runArtScript (d, src) {
                 this.loading = true;
+                this.sketch.remove();
+                this.sketch = null;
                 d.querySelectorAll('.art-script').forEach(elt => elt.remove());
                 d.querySelectorAll('.p5Canvas').forEach(elt => elt.remove());
                 const script = d.createElement('script');
@@ -87,9 +90,9 @@ export default {
                 script.async = true;
                 script.onload = () => {
                     const container = d.getElementById('canvas-container');
-                    this.loading = false;
                     // eslint-disable-next-line
-                    const p = new p5(artPiece, container);
+                    this.sketch = new p5(artPiece, container);
+                    this.loading = false;
                 };
                 script.src = src;
                 d.getElementsByTagName('body')[0].appendChild(script);
@@ -116,7 +119,7 @@ export default {
 
 <style scoped>
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 80px auto;
     margin-bottom: 0px;
     display: grid;
@@ -191,13 +194,24 @@ export default {
 }
 
 .loader {
-    margin-top: 210px;
+    margin-top: 360px;
 }
 
 @media screen and (max-width: 1372px){
+    .container {
+      max-width: 1000px;
+      margin: 80px auto;
+      margin-bottom: 0px;
+      display: grid;
+      grid-template-columns: auto auto;
+    }
     #canvas-container {
         width: 500px;
         height: 500px;
+    }
+
+    .loader {
+        margin-top: 210px;
     }
 }
 
